@@ -78,6 +78,7 @@
   margin-bottom: 1rem;
   font-size: 0.875rem;
   color: var(--text-tertiary);
+  flex-wrap: wrap;
 }
 
 .property-details span {
@@ -92,6 +93,8 @@
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .property-price {
@@ -111,4 +114,84 @@
   align-items: center;
   gap: 0.25rem;
   font-weight: 500;
+}
+
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .property-image {
+    height: 200px;
+  }
+
+  .property-info {
+    padding: 1rem;
+  }
+
+  .property-name {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .property-card {
+    border-radius: 12px;
+  }
+
+  .property-image {
+    height: 180px;
+  }
+
+  .property-info {
+    padding: 1rem;
+  }
+
+  .property-name {
+    font-size: 1rem;
+  }
+
+  .property-location {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .property-details {
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .property-footer {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .property-price {
+    font-size: 0.9375rem;
+  }
+
+  .property-price strong {
+    font-size: 1.0625rem;
+  }
+
+  .property-rating {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 480px) {
+  .property-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .property-image {
+    height: 160px;
+  }
+
+  .property-info {
+    padding: 0.875rem;
+  }
+
+  .property-details {
+    gap: 0.5rem;
+  }
 }

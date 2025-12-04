@@ -10,6 +10,7 @@ const Messages = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showMobileConversations, setShowMobileConversations] = useState(true);
 
   useEffect(() => {
     fetchMessages();
@@ -80,10 +81,20 @@ const Messages = () => {
 
   if (loading) return <div className="loading">Loading messages...</div>;
 
+  const handleSelectConversation = (conv) => {
+    setSelectedUser(conv);
+    setShowMobileConversations(false);
+  };
+
+  const handleBackToConversations = () => {
+    setShowMobileConversations(true);
+    setSelectedUser(null);
+  };
+
   return (
     <div className="messages-page">
       <div className="messages-container">
-        <div className="conversations-sidebar">
+        <div className={`conversations-sidebar ${showMobileConversations ? 'mobile-visible' : ''}`}>
           <h2>Conversations</h2>
           <div className="conversations-list">
             {conversations.length === 0 ? (
@@ -93,7 +104,7 @@ const Messages = () => {
                 <div
                   key={conv.user_id}
                   className={`conversation-item ${selectedUser?.user_id === conv.user_id ? 'active' : ''}`}
-                  onClick={() => setSelectedUser(conv)}
+                  onClick={() => handleSelectConversation(conv)}
                 >
                   <div className="conversation-user">
                     <strong>{conv.first_name} {conv.last_name}</strong>
@@ -106,10 +117,17 @@ const Messages = () => {
           </div>
         </div>
 
-        <div className="messages-main">
+        <div className={`messages-main ${!showMobileConversations ? 'mobile-visible' : ''}`}>
           {selectedUser ? (
             <>
               <div className="messages-header">
+                <button
+                  className="mobile-back-button"
+                  onClick={handleBackToConversations}
+                  aria-label="Back to conversations"
+                >
+                  ← Back
+                </button>
                 <h2>{selectedUser.first_name} {selectedUser.last_name}</h2>
               </div>
 

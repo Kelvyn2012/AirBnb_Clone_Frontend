@@ -7,7 +7,7 @@
 .hero {
   text-align: center;
   margin-bottom: 3rem;
-  padding: 3rem 0;
+  padding: 3rem 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 12px;
@@ -16,6 +16,7 @@
 .hero h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .hero p {
@@ -48,6 +49,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  white-space: nowrap;
 }
 
 .search-button:hover {
@@ -59,15 +61,19 @@
   gap: 1rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .filters select {
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
-  background-color: white;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   cursor: pointer;
+  min-width: 150px;
+  flex: 1 1 auto;
 }
 
 .apply-filters {
@@ -78,6 +84,12 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.apply-filters:hover {
+  background-color: #222;
 }
 
 .properties-container {
@@ -93,20 +105,114 @@
 .no-properties {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: var(--text-tertiary);
   font-size: 1.2rem;
 }
 
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .home {
+    padding: 1.5rem;
+  }
+
+  .hero {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+  }
+
+  .properties-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile styles */
 @media (max-width: 768px) {
+  .home {
+    padding: 1rem;
+  }
+
+  .hero {
+    margin-bottom: 2rem;
+    padding: 2rem 1rem;
+    border-radius: 8px;
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
 
   .hero p {
     font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+  }
+
+  .search-button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .filters {
+    gap: 0.75rem;
+  }
+
+  .filters select {
+    min-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .apply-filters {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
   }
 
   .properties-grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .no-properties {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 480px) {
+  .home {
+    padding: 0.75rem;
+  }
+
+  .hero {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero p {
+    font-size: 0.9375rem;
+  }
+
+  .properties-grid {
+    gap: 1rem;
   }
 }
