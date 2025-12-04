@@ -51,6 +51,21 @@ const PropertyDetail = () => {
     }
   };
 
+  // Calculate total price based on dates
+  const calculateTotal = () => {
+    if (!bookingData.start_date || !bookingData.end_date || !property) {
+      return 0;
+    }
+
+    const start = new Date(bookingData.start_date);
+    const end = new Date(bookingData.end_date);
+    const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+    if (nights <= 0) return 0;
+
+    return nights * parseFloat(property.pricepernight);
+  };
+
   const handleBooking = async (e) => {
     e.preventDefault();
 
@@ -217,6 +232,7 @@ const PropertyDetail = () => {
                     type="date"
                     value={bookingData.start_date}
                     onChange={(e) => setBookingData({ ...bookingData, start_date: e.target.value })}
+                    min={new Date().toISOString().split('T')[0]}
                     required
                   />
                 </div>
@@ -227,6 +243,7 @@ const PropertyDetail = () => {
                     type="date"
                     value={bookingData.end_date}
                     onChange={(e) => setBookingData({ ...bookingData, end_date: e.target.value })}
+                    min={bookingData.start_date || new Date().toISOString().split('T')[0]}
                     required
                   />
                 </div>
@@ -238,13 +255,26 @@ const PropertyDetail = () => {
                     min="1"
                     max={property.max_guests}
                     value={bookingData.guests}
-                    onChange={(e) => setBookingData({ ...bookingData, guests: e.target.value })}
+                    onChange={(e) => setBookingData({ ...bookingData, guests: parseInt(e.target.value) || 1 })}
                     required
                   />
                 </div>
 
+                {bookingData.start_date && bookingData.end_date && calculateTotal() > 0 && (
+                  <div className="booking-summary">
+                    <div className="summary-row">
+                      <span>${property.pricepernight} x {Math.ceil((new Date(bookingData.end_date) - new Date(bookingData.start_date)) / (1000 * 60 * 60 * 24))} nights</span>
+                      <span>${calculateTotal().toFixed(2)}</span>
+                    </div>
+                    <div className="summary-total">
+                      <strong>Total</strong>
+                      <strong>${calculateTotal().toFixed(2)}</strong>
+                    </div>
+                  </div>
+                )}
+
                 <button type="submit" className="btn-primary btn-block">
-                  Confirm Booking
+                  {calculateTotal() > 0 ? `Book - $${calculateTotal().toFixed(2)}` : 'Confirm Booking'}
                 </button>
                 <button
                   type="button"
