@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8001',
+  baseURL: process.env.REACT_APP_API_URL || 'https://airbnb-no7gc9zsh-kelvyn2012s-projects.vercel.app/api',
   headers: {
     'Content-Type': 'application/json',
   },
