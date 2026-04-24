@@ -170,7 +170,7 @@ const PropertyDetail = () => {
                   <label>Rating</label>
                   <select
                     value={reviewData.rating}
-                    onChange={(e) => setReviewData({ ...reviewData, rating: e.target.value })}
+                    onChange={(e) => setReviewData({ ...reviewData, rating: parseInt(e.target.value, 10) })}
                   >
                     <option value="5">5 - Excellent</option>
                     <option value="4">4 - Good</option>

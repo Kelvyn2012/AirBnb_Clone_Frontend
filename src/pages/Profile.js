@@ -4,7 +4,7 @@ import api from '../services/api';
 import '../styles/Profile.css';
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [profile, setProfile] = useState({
     first_name: '',
     last_name: '',
@@ -37,7 +37,7 @@ const Profile = () => {
 
     try {
       const response = await api.patch('/api/users/profile/', profile);
-      localStorage.setItem('user', JSON.stringify(response.data));
+      updateUser(response.data);
       setMessage('Profile updated successfully!');
     } catch (error) {
       setMessage('Failed to update profile');

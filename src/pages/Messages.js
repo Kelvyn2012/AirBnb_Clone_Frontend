@@ -25,8 +25,9 @@ const Messages = () => {
   const fetchMessages = async () => {
     try {
       const response = await api.get('/api/messages/');
-      setMessages(response.data);
-      extractConversations(response.data);
+      const data = response.data.results || response.data || [];
+      setMessages(data);
+      extractConversations(data);
     } catch (error) {
       console.error('Error fetching messages:', error);
     } finally {
@@ -55,7 +56,7 @@ const Messages = () => {
   const fetchConversation = async (userId) => {
     try {
       const response = await api.get(`/api/messages/conversation/${userId}/`);
-      setMessages(response.data);
+      setMessages(response.data.results || response.data || []);
     } catch (error) {
       console.error('Error fetching conversation:', error);
     }

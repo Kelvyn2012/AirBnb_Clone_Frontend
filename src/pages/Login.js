@@ -21,14 +21,20 @@ const Login = () => {
       await login(email, password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed');
+      const data = err.response?.data;
+      setError(
+        data?.non_field_errors?.[0] ||
+        data?.detail ||
+        'Login failed'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const handleOAuthLogin = (provider) => {
-    window.location.href = `http://localhost:8001/api/users/auth/${provider}/`;
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8001';
+    window.location.href = `${apiUrl}/api/users/auth/${provider}/`;
   };
 
   return (

@@ -40,6 +40,20 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
+  // Used after OAuth: tokens arrive as URL params, so we fetch the profile
+  // to populate user state instead of making a redundant login API call.
+  const loginWithTokens = async (accessToken, refreshToken) => {
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+    const response = await api.get('/api/users/profile/');
+    const userData = response.data;
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+    return userData;
+  };
+
   const register = async (userData) => {
     const response = await api.post('/api/users/register/', userData);
     const { user: newUser, tokens } = response.data;
@@ -54,6 +68,12 @@ export const AuthProvider = ({ children }) => {
     return newUser;
   };
 
+  // Sync updated profile data into React state + localStorage without a re-login.
+  const updateUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
   const logout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
@@ -66,7 +86,9 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    loginWithTokens,
     register,
+    updateUser,
     logout,
     isAuthenticated: !!user
   };

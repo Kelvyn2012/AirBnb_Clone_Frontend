@@ -41,14 +41,24 @@ const Register = () => {
       await register(formData);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.email?.[0] || 'Registration failed');
+      const data = err.response?.data;
+      setError(
+        data?.non_field_errors?.[0] ||
+        data?.email?.[0] ||
+        data?.password?.[0] ||
+        data?.first_name?.[0] ||
+        data?.last_name?.[0] ||
+        data?.role?.[0] ||
+        'Registration failed'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const handleOAuthLogin = (provider) => {
-    window.location.href = `http://localhost:8001/api/users/auth/${provider}/`;
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8001';
+    window.location.href = `${apiUrl}/api/users/auth/${provider}/`;
   };
 
   return (

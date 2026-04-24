@@ -36,8 +36,12 @@ api.interceptors.response.use(
           refresh: refreshToken,
         });
 
-        const { access } = response.data;
+        const { access, refresh: newRefresh } = response.data;
         localStorage.setItem('access_token', access);
+        // ROTATE_REFRESH_TOKENS=True means the server issues a new refresh token on every refresh
+        if (newRefresh) {
+          localStorage.setItem('refresh_token', newRefresh);
+        }
         api.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 
         return api(originalRequest);

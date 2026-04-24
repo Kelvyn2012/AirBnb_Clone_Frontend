@@ -5,27 +5,27 @@ import { useAuth } from '../context/AuthContext';
 const OAuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { loginWithTokens } = useAuth();
 
   useEffect(() => {
-    const access = searchParams.get('access');
-    const refresh = searchParams.get('refresh');
+    const handleCallback = async () => {
+      const access = searchParams.get('access');
+      const refresh = searchParams.get('refresh');
 
-    if (access && refresh) {
-      // Store tokens
-      localStorage.setItem('access_token', access);
-      localStorage.setItem('refresh_token', refresh);
+      if (access && refresh) {
+        try {
+          await loginWithTokens(access, refresh);
+          navigate('/');
+        } catch (error) {
+          navigate('/login?error=oauth_failed');
+        }
+      } else {
+        navigate('/login?error=oauth_failed');
+      }
+    };
 
-      // Update auth context
-      login({ access, refresh });
-
-      // Redirect to home
-      navigate('/');
-    } else {
-      // OAuth failed, redirect to login
-      navigate('/login?error=oauth_failed');
-    }
-  }, [searchParams, navigate, login]);
+    handleCallback();
+  }, [searchParams, navigate, loginWithTokens]);
 
   return (
     <div className="loading">

@@ -19,8 +19,8 @@ const HostDashboard = () => {
         api.get('/api/bookings/host/')
       ]);
 
-      setProperties(propertiesRes.data);
-      setBookings(bookingsRes.data);
+      setProperties(propertiesRes.data.results || propertiesRes.data || []);
+      setBookings(bookingsRes.data.results || bookingsRes.data || []);
     } catch (error) {
       console.error('Error fetching host data:', error);
     } finally {
